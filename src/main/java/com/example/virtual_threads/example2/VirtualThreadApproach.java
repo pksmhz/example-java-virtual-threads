@@ -16,13 +16,11 @@ public class VirtualThreadApproach {
 
         long l = System.currentTimeMillis();
         try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
-            IntStream.range(0, 10000).forEach(i -> {
-                executor.submit(() -> {
-                    Thread.sleep(Duration.ofSeconds(1));
-                    log.info("Thread ID [{}]", i);
-                    return i;
-                });
-            });
+            IntStream.range(0, 10000).forEach(i -> executor.submit(() -> {
+                Thread.sleep(Duration.ofSeconds(1));
+                log.info("Thread ID [{}]", i);
+                return i;
+            }));
         }
 
         log.info("Virtual threads elapsed time: {}", System.currentTimeMillis() - l);

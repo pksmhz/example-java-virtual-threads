@@ -18,13 +18,11 @@ public class OsThreadApproach {
         long l = System.currentTimeMillis();
         try (ExecutorService executorService = Executors.newFixedThreadPool(200)) {
 
-            IntStream.range(0, 10000).forEach(i -> {
-                executorService.submit(() -> {
-                    Thread.sleep(Duration.ofSeconds(1));
-                    log.info("Thread ID [{}]", i);
-                    return i;
-                });
-            });
+            IntStream.range(0, 10000).forEach(i -> executorService.submit(() -> {
+                Thread.sleep(Duration.ofSeconds(1));
+                log.info("Thread ID [{}]", i);
+                return i;
+            }));
         }
 
         log.info("OS threads elapsed time: {}", System.currentTimeMillis() - l);
